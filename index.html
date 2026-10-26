@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Storyflow — Visual story planning</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Inline SVG icon sprite. Icons are referenced with <use href="#i-name">. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-logo" viewBox="0 0 24 24"><circle cx="6" cy="7" r="2.6"/><circle cx="18" cy="7" r="2.6"/><circle cx="12" cy="18" r="2.6"/><path d="M8.2 8.5l2.5 7M15.8 8.5l-2.5 7M8.6 7h6.8"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h3"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2"/></symbol>
+    <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.6"/><rect x="13" y="4" width="8" height="5" rx="1.6"/><rect x="3" y="13" width="8" height="7" rx="1.6"/><rect x="13" y="11" width="8" height="9" rx="1.6"/></symbol>
+    <symbol id="i-timeline" viewBox="0 0 24 24"><path d="M5 4v16"/><circle cx="5" cy="7" r="1.7"/><circle cx="5" cy="17" r="1.7"/><path d="M10 7h10M10 12h7M10 17h10"/></symbol>
+    <symbol id="i-graph" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.6"/><circle cx="18" cy="8" r="2.6"/><circle cx="9" cy="18" r="2.6"/><path d="M8.5 6.4l7 1.2M7.2 8.4l1.3 7M16.6 10.2L10.8 16.4"/></symbol>
+    <symbol id="i-sidebar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.6"/><path d="M9.5 4v16"/></symbol>
+    <symbol id="i-maximize" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-restore" viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6.5-5.6 6.5-11a6.5 6.5 0 10-13 0c0 5.4 6.5 11 6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+    <symbol id="i-event" viewBox="0 0 24 24"><path d="M6 21V4M6 5h11l-2.5 4L17 13H6"/></symbol>
+    <symbol id="i-idea" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z"/></symbol>
+    <symbol id="i-note" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M7 4h10v17l-5-4-5 4z"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></symbol>
+    <symbol id="i-grip" viewBox="0 0 24 24"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01" stroke-width="3"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 112.6 5.9"/><path d="M4 5v7h7"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></symbol>
+    <symbol id="i-wand" viewBox="0 0 24 24"><path d="M5 19L17 7M14.5 4.5l5 5M6 4v3M4.5 5.5h3M19 15v3M17.5 16.5h3"/></symbol>
+  </defs>
+</svg>
+
+<div id="app">
+
+  <!-- ========================= DASHBOARD ========================= -->
+  <section id="dashboard" class="screen dashboard">
+    <header class="dash-header">
+      <div class="brand">
+        <svg class="ic logo"><use href="#i-logo"/></svg>
+        <span>Storyflow</span>
+      </div>
+      <div class="dash-actions">
+        <button class="btn ghost" data-action="import-story" title="Import a story exported as JSON"><svg class="ic"><use href="#i-download"/></svg>Import</button>
+        <button class="btn primary" data-action="new-story">
+          <svg class="ic"><use href="#i-plus"/></svg>New Story
+        </button>
+        <input id="import-file" type="file" accept=".json,application/json" hidden>
+      </div>
+    </header>
+    <main class="dash-main">
+      <div class="dash-intro">
+        <h1>Your stories</h1>
+        <p>Capture an idea, visualize it, organize it, develop it — and pick it up again whenever you like.</p>
+      </div>
+      <div id="project-grid" class="project-grid"></div>
+    </main>
+  </section>
+
+  <!-- ========================= WORKSPACE ========================= -->
+  <section id="workspace" class="screen ws" hidden>
+
+    <header class="ws-header">
+      <div class="hdr-left">
+        <button class="icon-btn" data-action="toggle-sidebar" title="Toggle sidebar (Ctrl+B)" aria-label="Toggle sidebar">
+          <svg class="ic"><use href="#i-sidebar"/></svg>
+        </button>
+        <button class="icon-btn brand-btn" data-action="go-dashboard" title="Back to all stories" aria-label="Back to all stories">
+          <svg class="ic logo"><use href="#i-logo"/></svg>
+        </button>
+        <span class="crumb-sep" aria-hidden="true">/</span>
+        <input id="story-title" class="title-input" type="text" maxlength="120" placeholder="Untitled story" aria-label="Story title" autocomplete="off">
+        <span id="save-status" class="save-status" data-state="saved" role="status"><i></i><span>Saved</span></span>
+      </div>
+
+      <div class="hdr-right">
+        <button class="icon-btn" id="btn-undo" data-action="undo" title="Undo (Ctrl+Z)" aria-label="Undo"><svg class="ic"><use href="#i-undo"/></svg></button>
+        <button class="icon-btn" id="btn-redo" data-action="redo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo"><svg class="ic"><use href="#i-redo"/></svg></button>
+
+        <div class="pop-anchor">
+          <button class="btn primary" id="btn-add" data-action="toggle-popover" data-pop="add" title="Quick capture (N)" aria-haspopup="true" aria-expanded="false">
+            <svg class="ic"><use href="#i-plus"/></svg><span class="hide-sm">Add</span>
+          </button>
+          <div class="popover" id="pop-add" hidden>
+            <div class="pop-title">Quick capture</div>
+            <div class="kind-picker" id="kind-picker"></div>
+            <form id="quick-form" autocomplete="off">
+              <input id="quick-input" type="text" placeholder="Type and press Enter" aria-label="Title">
+            </form>
+            <div class="pop-hint">Enter adds another &middot; Esc closes &middot; details can wait</div>
+          </div>
+        </div>
+
+        <div class="pop-anchor">
+          <button class="icon-btn" data-action="toggle-popover" data-pop="layout" title="View options" aria-label="View options" aria-haspopup="true" aria-expanded="false">
+            <svg class="ic"><use href="#i-sliders"/></svg>
+          </button>
+          <div class="popover menu" id="pop-layout" role="menu" hidden>
+            <button class="menu-item" role="menuitem" data-action="toggle-snap"><svg class="ic"><use href="#i-grid"/></svg><span id="lbl-snap">Snap cards to grid: Off</span></button>
+            <button class="menu-item" role="menuitem" data-action="reset-layout"><svg class="ic"><use href="#i-reset"/></svg><span>Reset layout</span></button>
+            <div class="menu-sep"></div>
+            <button class="menu-item" role="menuitem" data-action="show-shortcuts"><svg class="ic"><use href="#i-keyboard"/></svg><span>Keyboard shortcuts</span><kbd>?</kbd></button>
+            <button class="menu-item" role="menuitem" data-action="export-json"><svg class="ic"><use href="#i-download"/></svg><span>Export story (JSON)</span></button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="ws-body">
+
+      <!-- Left: story structure (upper) + story elements (lower) -->
+      <aside class="sidebar" id="sidebar" aria-label="Story panels">
+        <section class="panel structure" id="panel-structure">
+          <div class="panel-head"><h2>Structure</h2></div>
+          <div class="panel-scroll" id="struct-lists"></div>
+        </section>
+
+        <div class="split-h" id="split-h" role="separator" aria-orientation="horizontal" title="Drag to resize · double-click to reset"></div>
+
+        <section class="panel elements" id="panel-elements">
+          <div class="panel-head"><h2>Story elements</h2></div>
+          <div class="tabs" id="el-tabs" role="tablist"></div>
+          <form class="quick-add" id="el-add" autocomplete="off">
+            <input id="el-input" type="text" placeholder="Capture an idea…" aria-label="Add element">
+            <button class="icon-btn" type="submit" title="Add" aria-label="Add"><svg class="ic"><use href="#i-plus"/></svg></button>
+          </form>
+          <ul class="el-list panel-scroll" id="el-list"></ul>
+        </section>
+      </aside>
+
+      <div class="split-v" id="split-v" role="separator" aria-orientation="vertical" tabindex="0" title="Drag to resize · double-click to reset"></div>
+      <div class="drawer-backdrop" data-action="close-drawer"></div>
+
+      <!-- Right: main workspace -->
+      <main class="main" id="main">
+        <div class="viewbar">
+          <div class="seg" id="view-tabs" role="tablist" aria-label="Workspace view">
+            <button role="tab" data-action="set-view" data-view="board" title="Idea Board (1)" aria-label="Idea Board"><svg class="ic"><use href="#i-board"/></svg><span>Idea Board</span></button>
+            <button role="tab" data-action="set-view" data-view="timeline" title="Timeline (2)" aria-label="Timeline"><svg class="ic"><use href="#i-timeline"/></svg><span>Timeline</span></button>
+            <button role="tab" data-action="set-view" data-view="graph" title="Connections (3)" aria-label="Connections"><svg class="ic"><use href="#i-graph"/></svg><span>Connections</span></button>
+          </div>
+          <div class="viewbar-mid" id="filter-chip"></div>
+          <div class="viewbar-right">
+            <label class="search">
+              <svg class="ic"><use href="#i-search"/></svg>
+              <input id="search" type="search" placeholder="Search" title="Search (/)" autocomplete="off" aria-label="Search">
+            </label>
+            <button class="icon-btn" data-action="toggle-maximize" title="Maximize / restore workspace" aria-label="Maximize or restore workspace">
+              <svg class="ic when-normal"><use href="#i-maximize"/></svg>
+              <svg class="ic when-max"><use href="#i-restore"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="view-root" id="view-root"></div>
+          <aside class="inspector" id="inspector" aria-label="Details"></aside>
+        </div>
+      </main>
+    </div>
+  </section>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
